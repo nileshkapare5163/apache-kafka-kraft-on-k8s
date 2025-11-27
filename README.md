@@ -126,15 +126,52 @@ Example:
 
 ## Testing with Producers & Consumers
 
-### Node.js Example
+🧪 Test Kafka From Outside (Producer & Consumer)
 
-``` javascript
-const { Kafka } = require("kafkajs");
+You’ll do this on your local machine or another EC2 instance that can reach your Kafka broker at 18.212.218.92:30092.
 
-const kafka = new Kafka({
-  brokers: ["<PUBLIC_IP>:30092"]
-});
-```
+1. Install Kafka Client Tools
+If you don’t already have Kafka client tools installed, here’s how:
+
+On Ubuntu (local or EC2):
+
+sudo apt-get update
+sudo apt-get install -y wget default-jre
+wget https://downloads.apache.org/kafka/3.9.1/kafka_2.13-3.9.1.tgz
+tar -xzf kafka_2.13-3.9.1.tgz
+cd kafka_2.13-3.9.1
+
+
+The Kafka CLI tools (kafka-topics.sh, kafka-console-producer.sh, kafka-console-consumer.sh) will be inside this folder.
+
+2. Create Kafka Topic
+Run:
+
+./bin/kafka-topics.sh --create \
+  --topic test-topic \
+  --bootstrap-server 18.212.218.92:30092 \
+  --partitions 1 --replication-factor 1
+
+
+3. Start Kafka Producer
+Open a new terminal, then run:
+
+./bin/kafka-console-producer.sh --topic test-topic --bootstrap-server 18.212.218.92:30092
+
+Type a few messages, e.g.:
+
+hello
+from
+outside
+
+Each line you type is sent as a Kafka message.
+
+4. Start Kafka Consumer
+Open another terminal and run:
+
+./bin/kafka-console-consumer.sh --topic test-topic --from-beginning --bootstrap-server 18.212.218.92:30092
+
+You should see the messages you typed in the producer terminal appear here.
 
 ### Python Example
 
