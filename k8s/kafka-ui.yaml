@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akhq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: akhq
+  template:
+    metadata:
+      labels:
+        app: akhq
+    spec:
+      containers:
+      - name: akhq
+        image: tchiotludo/akhq:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: AKHQ_CONFIGURATION
+          value: |
+            akhq:
+              connections:
+                my-cluster:
+                  properties:
+                    bootstrap.servers: "18.212.218.92:30092"

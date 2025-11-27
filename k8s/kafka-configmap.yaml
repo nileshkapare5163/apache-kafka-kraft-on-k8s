@@ -1,0 +1,9 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+data:
+  KAFKA_NODE_ID: "1"
+  KAFKA_CLUSTER_ID: "kraft-cluster-id"
+
